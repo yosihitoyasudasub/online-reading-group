@@ -1,30 +1,32 @@
 const { google } = require('googleapis');
 const nodemailer = require('nodemailer');
 
-const oauth2Client = new google.auth.OAuth2(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET,
-    process.env.GOOGLE_REDIRECT_URI
-);
-
-oauth2Client.setCredentials({
-    refresh_token: process.env.GOOGLE_REFRESH_TOKEN
+const serviceAccountAuth = new google.auth.GoogleAuth({
+    credentials: {
+        type: 'service_account',
+        project_id: process.env.GOOGLE_PROJECT_ID,
+        private_key_id: process.env.GOOGLE_PRIVATE_KEY_ID,
+        private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+        token_uri: 'https://oauth2.googleapis.com/token',
+        auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+        client_x509_cert_url: `https://www.googleapis.com/robot/v1/metadata/x509/${process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL}`
+    },
+    scopes: [
+        'https://www.googleapis.com/auth/calendar',
+        'https://www.googleapis.com/auth/gmail.send'
+    ]
 });
 
-const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+const calendar = google.calendar({ version: 'v3', auth: serviceAccountAuth });
 
 const transporter = nodemailer.createTransporter({
     service: 'gmail',
     auth: {
-        type: 'OAuth2',
         user: process.env.EMAIL_USER,
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
-        accessToken: async () => {
-            const { token } = await oauth2Client.getAccessToken();
-            return token;
-        }
+        pass: process.env.EMAIL_PASSWORD
     }
 });
 

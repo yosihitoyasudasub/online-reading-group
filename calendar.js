@@ -8,46 +8,31 @@ const CALENDAR_CONFIG = {
 let gapi;
 
 function initializeGoogleCalendar() {
-    if (typeof window.gapi !== 'undefined') {
-        gapi = window.gapi;
-        gapi.load('client:auth2', initClient);
-    } else {
-        console.error('Google API not loaded');
-        loadSampleData();
-    }
+    loadAvailableSlots();
 }
 
-function initClient() {
-    gapi.client.init({
-        apiKey: CALENDAR_CONFIG.apiKey,
-        discoveryDocs: CALENDAR_CONFIG.discoveryDocs,
-    }).then(() => {
-        loadAvailableSlots();
-    }).catch((error) => {
-        console.error('Error initializing Google Calendar API:', error);
-        loadSampleData();
-    });
-}
+async function loadAvailableSlots() {
+    try {
+        const apiUrl = window.location.hostname === 'localhost'
+            ? '/api/calendar'
+            : '/api/calendar';
 
-function loadAvailableSlots() {
-    const now = new Date();
-    const timeMin = now.toISOString();
-    const timeMax = new Date(now.getTime() + (30 * 24 * 60 * 60 * 1000)).toISOString();
+        const response = await fetch(apiUrl);
 
-    gapi.client.calendar.events.list({
-        calendarId: CALENDAR_CONFIG.calendarId,
-        timeMin: timeMin,
-        timeMax: timeMax,
-        singleEvents: true,
-        orderBy: 'startTime',
-        q: '読書会'
-    }).then((response) => {
-        const events = response.result.items;
-        displayAvailableSlots(events);
-    }).catch((error) => {
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                displayAvailableSlots(data.events);
+            } else {
+                throw new Error(data.message);
+            }
+        } else {
+            throw new Error('カレンダーの読み込みに失敗しました');
+        }
+    } catch (error) {
         console.error('Error loading calendar events:', error);
         loadSampleData();
-    });
+    }
 }
 
 function loadSampleData() {
