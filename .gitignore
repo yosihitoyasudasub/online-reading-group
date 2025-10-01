@@ -44,3 +44,9 @@ Thumbs.db
 
 # Local development
 server.js
+.vercel
+
+# Google Service Account Keys (Security)
+*.json
+reading-group-app*.json
+service-account*.json
