@@ -1,0 +1,6 @@
+server.js
+.env
+.env.local
+.env.example
+node_modules
+README.md

@@ -1,0 +1,407 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.logo h1 {
+    color: #8B4513;
+    font-size: 1.8rem;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #CD853F;
+}
+
+.hero {
+    background: linear-gradient(135deg, #F4A460 0%, #8B4513 100%);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.hero-content h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+}
+
+.cta-button {
+    background: #D2691E;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.cta-button:hover {
+    background: #B22222;
+}
+
+section {
+    padding: 80px 0;
+}
+
+.about {
+    background: #FFF8DC;
+}
+
+.about h2, .reservation h2, .archive h2, .contact h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #8B4513;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.about-item {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.about-item:hover {
+    transform: translateY(-5px);
+}
+
+.about-item h3 {
+    color: #8B4513;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.reservation {
+    background: #F5F5DC;
+}
+
+.reservation-description {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    color: #666;
+}
+
+#calendar-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 3rem;
+}
+
+#calendar-container h3 {
+    color: #8B4513;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+#available-slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.slot-item {
+    background: #FFF8DC;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.slot-item:hover {
+    border-color: #CD853F;
+    transform: translateY(-2px);
+}
+
+.slot-item.selected {
+    border-color: #8B4513;
+    background: #F4A460;
+    color: white;
+}
+
+.slot-date {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.slot-time {
+    color: #666;
+}
+
+.slot-book {
+    color: #8B4513;
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
+.reservation-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.reservation-form h3 {
+    color: #8B4513;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #8B4513;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #CD853F;
+}
+
+.submit-button {
+    background: #8B4513;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 1rem;
+}
+
+.submit-button:hover {
+    background: #654321;
+}
+
+.cancel-button {
+    background: #ccc;
+    color: #333;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.cancel-button:hover {
+    background: #bbb;
+}
+
+.archive {
+    background: #FFF8DC;
+}
+
+.archive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.archive-item {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.archive-item:hover {
+    transform: translateY(-5px);
+}
+
+.archive-item h3 {
+    color: #8B4513;
+    margin-bottom: 1rem;
+}
+
+.book-title {
+    color: #CD853F;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.archive-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.archive-link {
+    background: #F4A460;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.archive-link:hover {
+    background: #CD853F;
+}
+
+.contact {
+    background: #F5F5DC;
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.contact-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.contact-form button {
+    background: #8B4513;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.contact-form button:hover {
+    background: #654321;
+}
+
+footer {
+    background: #8B4513;
+    color: white;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .hero-content h2 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    section {
+        padding: 60px 0;
+    }
+
+    .about-grid,
+    .archive-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #available-slots {
+        grid-template-columns: 1fr;
+    }
+
+    .archive-links {
+        flex-direction: column;
+    }
+}

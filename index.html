@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オンライン読書会 - 本を通じた学びと交流</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://apis.google.com/js/api.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>📚 オンライン読書会</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">ホーム</a></li>
+                <li><a href="#about">読書会について</a></li>
+                <li><a href="#reservation">予約</a></li>
+                <li><a href="#archive">過去資料</a></li>
+                <li><a href="#contact">お問い合わせ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h2>本を通じて繋がる学びの場</h2>
+                <p>様々なジャンルの本を読み、参加者同士で感想や考えを共有する読書会です</p>
+                <button class="cta-button">今すぐ予約する</button>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="container">
+                <h2>読書会について</h2>
+                <div class="about-grid">
+                    <div class="about-item">
+                        <h3>📖 多様なジャンル</h3>
+                        <p>小説、ビジネス書、自己啓発書など、幅広いジャンルの本を扱います</p>
+                    </div>
+                    <div class="about-item">
+                        <h3>💬 活発な議論</h3>
+                        <p>読書を通じて得た気づきや感想を参加者同士で共有し、新たな視点を発見できます</p>
+                    </div>
+                    <div class="about-item">
+                        <h3>🌐 オンライン開催</h3>
+                        <p>Google Meetを使用したオンライン開催で、全国どこからでも参加可能です</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="reservation" class="reservation">
+            <div class="container">
+                <h2>読書会予約</h2>
+                <p class="reservation-description">下記のスケジュールから参加希望の日時を選択し、予約フォームにご記入ください</p>
+
+                <div id="calendar-container">
+                    <h3>開催予定</h3>
+                    <div id="available-slots">
+                        <!-- Google Calendar APIで取得した予約枠がここに表示される -->
+                    </div>
+                </div>
+
+                <form id="reservation-form" class="reservation-form" style="display: none;">
+                    <h3>予約情報入力</h3>
+                    <input type="hidden" id="selected-slot" name="selectedSlot">
+
+                    <div class="form-group">
+                        <label for="name">お名前 *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">メールアドレス *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">電話番号</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="experience">読書会参加経験</label>
+                        <select id="experience" name="experience">
+                            <option value="first">初回参加</option>
+                            <option value="experienced">参加経験あり</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">メッセージ・質問など</label>
+                        <textarea id="message" name="message" rows="4"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-button">予約を確定する</button>
+                    <button type="button" class="cancel-button" onclick="cancelReservation()">キャンセル</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="archive" class="archive">
+            <div class="container">
+                <h2>過去資料アーカイブ</h2>
+                <div class="archive-grid">
+                    <div class="archive-item">
+                        <h3>2024年9月開催分</h3>
+                        <p class="book-title">「7つの習慣」- スティーブン・R・コヴィー</p>
+                        <div class="archive-links">
+                            <a href="#" class="archive-link">読書ガイド</a>
+                            <a href="#" class="archive-link">ディスカッション記録</a>
+                            <a href="#" class="archive-link">参考資料</a>
+                        </div>
+                    </div>
+
+                    <div class="archive-item">
+                        <h3>2024年8月開催分</h3>
+                        <p class="book-title">「人を動かす」- デール・カーネギー</p>
+                        <div class="archive-links">
+                            <a href="#" class="archive-link">読書ガイド</a>
+                            <a href="#" class="archive-link">ディスカッション記録</a>
+                            <a href="#" class="archive-link">参考資料</a>
+                        </div>
+                    </div>
+
+                    <div class="archive-item">
+                        <h3>2024年7月開催分</h3>
+                        <p class="book-title">「思考は現実化する」- ナポレオン・ヒル</p>
+                        <div class="archive-links">
+                            <a href="#" class="archive-link">読書ガイド</a>
+                            <a href="#" class="archive-link">ディスカッション記録</a>
+                            <a href="#" class="archive-link">参考資料</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>お問い合わせ</h2>
+                <form class="contact-form">
+                    <input type="text" placeholder="お名前" required>
+                    <input type="email" placeholder="メールアドレス" required>
+                    <textarea placeholder="ご質問・ご要望など" required></textarea>
+                    <button type="submit">送信</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 オンライン読書会. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="calendar.js"></script>
+</body>
+</html>
