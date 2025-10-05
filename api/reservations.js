@@ -32,62 +32,30 @@ function getTransporter() {
     });
 }
 
-async function createGoogleMeetEvent(slot, participant) {
+async function getEventMeetLink(slot) {
     try {
         const serviceAccountAuth = getServiceAccountAuth();
         const calendar = google.calendar({ version: 'v3', auth: serviceAccountAuth });
 
-        const event = {
-            summary: `読書会予約 - ${participant.name}`,
-            description: `
-参加者: ${participant.name}
-メール: ${participant.email}
-電話: ${participant.phone || '未記入'}
-参加経験: ${participant.experience === 'first' ? '初回参加' : '参加経験あり'}
-メッセージ: ${participant.message || 'なし'}
-
-課題図書: ${slot.book}
-            `,
-            start: {
-                dateTime: slot.start,
-                timeZone: 'Asia/Tokyo',
-            },
-            end: {
-                dateTime: slot.end,
-                timeZone: 'Asia/Tokyo',
-            },
-            conferenceData: {
-                createRequest: {
-                    requestId: `reading-group-${Date.now()}`,
-                    conferenceSolutionKey: {
-                        type: 'hangoutsMeet'
-                    }
-                }
-            },
-            reminders: {
-                useDefault: false,
-                overrides: [
-                    { method: 'email', minutes: 24 * 60 },
-                    { method: 'popup', minutes: 30 }
-                ]
-            }
-        };
-
-        const response = await calendar.events.insert({
+        // 既存イベントを取得
+        const response = await calendar.events.get({
             calendarId: process.env.CALENDAR_ID,
-            resource: event,
-            conferenceDataVersion: 1
+            eventId: slot.id
         });
 
         const meetLink = response.data.conferenceData?.entryPoints?.[0]?.uri ||
                         response.data.hangoutLink ||
-                        'Google Meet URLは後日お送りします';
+                        null;
+
+        if (!meetLink) {
+            throw new Error('Google Meet URLが見つかりません。管理者がイベントにGoogle Meetを追加してください。');
+        }
 
         return meetLink;
 
     } catch (error) {
-        console.error('Error creating Google Meet event:', error);
-        throw new Error('Google Meet イベントの作成に失敗しました');
+        console.error('Error getting Google Meet link:', error);
+        throw new Error('Google Meet URLの取得に失敗しました');
     }
 }
 
@@ -191,7 +159,7 @@ module.exports = async function handler(req, res) {
             });
         }
 
-        const meetLink = await createGoogleMeetEvent(slot, participant);
+        const meetLink = await getEventMeetLink(slot);
 
         await sendConfirmationEmail(participant, slot, meetLink);
 
