@@ -50,3 +50,6 @@ server.js
 *.json
 reading-group-app*.json
 service-account*.json
+
+# Internal documentation
+TROUBLESHOOTING.md
