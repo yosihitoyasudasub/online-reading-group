@@ -22,7 +22,21 @@ function getServiceAccountAuth() {
 }
 
 function getTransporter() {
-    const nodemailer = require('nodemailer');
+    let nodemailer;
+    try {
+        nodemailer = require('nodemailer');
+        console.log('nodemailer loaded:', typeof nodemailer);
+        console.log('nodemailer.default:', typeof nodemailer.default);
+        console.log('nodemailer.createTransporter:', typeof nodemailer.createTransporter);
+
+        // Try default export if createTransporter is not directly available
+        if (nodemailer.default && typeof nodemailer.default.createTransporter === 'function') {
+            nodemailer = nodemailer.default;
+        }
+    } catch (error) {
+        console.error('Error loading nodemailer:', error);
+        throw error;
+    }
 
     return nodemailer.createTransporter({
         service: 'gmail',
