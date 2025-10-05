@@ -18,7 +18,7 @@ const serviceAccountAuth = new google.auth.GoogleAuth({
 
 const calendar = google.calendar({ version: 'v3', auth: serviceAccountAuth });
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     if (req.method !== 'GET') {
         return res.status(405).json({ message: 'Method not allowed' });
     }
