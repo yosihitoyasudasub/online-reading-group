@@ -22,33 +22,9 @@ function getServiceAccountAuth() {
 }
 
 function getTransporter() {
-    let nodemailer;
-    try {
-        nodemailer = require('nodemailer');
-        console.log('nodemailer loaded:', typeof nodemailer);
-        console.log('nodemailer keys:', Object.keys(nodemailer));
-        console.log('nodemailer.default:', typeof nodemailer.default);
-        console.log('nodemailer.createTransporter:', typeof nodemailer.createTransporter);
+    const nodemailer = require('nodemailer');
 
-        // Check all properties
-        for (let key in nodemailer) {
-            console.log(`nodemailer.${key}:`, typeof nodemailer[key]);
-        }
-
-        // Try default export if createTransporter is not directly available
-        if (nodemailer.default && typeof nodemailer.default.createTransporter === 'function') {
-            nodemailer = nodemailer.default;
-        }
-    } catch (error) {
-        console.error('Error loading nodemailer:', error);
-        throw error;
-    }
-
-    if (typeof nodemailer.createTransporter !== 'function') {
-        throw new Error('nodemailer.createTransporter is not a function. Available keys: ' + Object.keys(nodemailer).join(', '));
-    }
-
-    return nodemailer.createTransporter({
+    return nodemailer.createTransport({
         service: 'gmail',
         auth: {
             user: process.env.EMAIL_USER,
