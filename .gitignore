@@ -53,3 +53,4 @@ service-account*.json
 
 # Internal documentation
 TROUBLESHOOTING.md
+PROJECT_OVERVIEW.md
