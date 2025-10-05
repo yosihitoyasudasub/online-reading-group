@@ -40,8 +40,8 @@ function loadSampleData() {
         {
             id: 'sample1',
             summary: '読書会: 「人を動かす」ディスカッション',
-            start: { dateTime: '2024-10-15T19:00:00+09:00' },
-            end: { dateTime: '2024-10-15T21:00:00+09:00' },
+            start: { dateTime: '2025-10-15T19:00:00+09:00' },
+            end: { dateTime: '2025-10-15T21:00:00+09:00' },
             description: '今月の課題図書「人を動かす」について語り合いましょう',
             location: 'Google Meet',
             extendedProperties: {
@@ -54,8 +54,8 @@ function loadSampleData() {
         {
             id: 'sample2',
             summary: '読書会: 「7つの習慣」実践編',
-            start: { dateTime: '2024-10-22T19:30:00+09:00' },
-            end: { dateTime: '2024-10-22T21:30:00+09:00' },
+            start: { dateTime: '2025-10-22T19:30:00+09:00' },
+            end: { dateTime: '2025-10-22T21:30:00+09:00' },
             description: '「7つの習慣」の実践方法について話し合います',
             location: 'Google Meet',
             extendedProperties: {
@@ -68,8 +68,8 @@ function loadSampleData() {
         {
             id: 'sample3',
             summary: '読書会: 「思考は現実化する」体験談',
-            start: { dateTime: '2024-10-29T20:00:00+09:00' },
-            end: { dateTime: '2024-10-29T22:00:00+09:00' },
+            start: { dateTime: '2025-10-29T20:00:00+09:00' },
+            end: { dateTime: '2025-10-29T22:00:00+09:00' },
             description: '実際に本の内容を実践した体験談を共有しましょう',
             location: 'Google Meet',
             extendedProperties: {
