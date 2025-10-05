@@ -56,10 +56,6 @@ async function createGoogleMeetEvent(slot, participant) {
                 dateTime: slot.end,
                 timeZone: 'Asia/Tokyo',
             },
-            attendees: [
-                { email: participant.email },
-                { email: process.env.ORGANIZER_EMAIL }
-            ],
             conferenceData: {
                 createRequest: {
                     requestId: `reading-group-${Date.now()}`,
@@ -80,8 +76,7 @@ async function createGoogleMeetEvent(slot, participant) {
         const response = await calendar.events.insert({
             calendarId: process.env.CALENDAR_ID,
             resource: event,
-            conferenceDataVersion: 1,
-            sendUpdates: 'all'
+            conferenceDataVersion: 1
         });
 
         const meetLink = response.data.conferenceData?.entryPoints?.[0]?.uri ||
