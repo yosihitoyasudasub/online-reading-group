@@ -1,5 +1,4 @@
 const { google } = require('googleapis');
-const nodemailer = require('nodemailer');
 
 function getServiceAccountAuth() {
     return new google.auth.GoogleAuth({
@@ -23,6 +22,8 @@ function getServiceAccountAuth() {
 }
 
 function getTransporter() {
+    const nodemailer = require('nodemailer');
+
     return nodemailer.createTransporter({
         service: 'gmail',
         auth: {
