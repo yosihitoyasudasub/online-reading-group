@@ -1,37 +1,42 @@
 const { google } = require('googleapis');
 const nodemailer = require('nodemailer');
 
-const serviceAccountAuth = new google.auth.GoogleAuth({
-    credentials: {
-        type: 'service_account',
-        project_id: process.env.GOOGLE_PROJECT_ID,
-        private_key_id: process.env.GOOGLE_PRIVATE_KEY_ID,
-        private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-        client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-        client_id: process.env.GOOGLE_CLIENT_ID,
-        auth_uri: 'https://accounts.google.com/o/oauth2/auth',
-        token_uri: 'https://oauth2.googleapis.com/token',
-        auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
-        client_x509_cert_url: `https://www.googleapis.com/robot/v1/metadata/x509/${process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL}`
-    },
-    scopes: [
-        'https://www.googleapis.com/auth/calendar',
-        'https://www.googleapis.com/auth/gmail.send'
-    ]
-});
+function getServiceAccountAuth() {
+    return new google.auth.GoogleAuth({
+        credentials: {
+            type: 'service_account',
+            project_id: process.env.GOOGLE_PROJECT_ID,
+            private_key_id: process.env.GOOGLE_PRIVATE_KEY_ID,
+            private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+            client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+            client_id: process.env.GOOGLE_CLIENT_ID,
+            auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+            token_uri: 'https://oauth2.googleapis.com/token',
+            auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+            client_x509_cert_url: `https://www.googleapis.com/robot/v1/metadata/x509/${process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL}`
+        },
+        scopes: [
+            'https://www.googleapis.com/auth/calendar',
+            'https://www.googleapis.com/auth/gmail.send'
+        ]
+    });
+}
 
-const calendar = google.calendar({ version: 'v3', auth: serviceAccountAuth });
-
-const transporter = nodemailer.createTransporter({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
-    }
-});
+function getTransporter() {
+    return nodemailer.createTransporter({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASSWORD
+        }
+    });
+}
 
 async function createGoogleMeetEvent(slot, participant) {
     try {
+        const serviceAccountAuth = getServiceAccountAuth();
+        const calendar = google.calendar({ version: 'v3', auth: serviceAccountAuth });
+
         const event = {
             summary: `読書会予約 - ${participant.name}`,
             description: `
@@ -157,6 +162,7 @@ async function sendConfirmationEmail(participant, slot, meetLink) {
     };
 
     try {
+        const transporter = getTransporter();
         await transporter.sendMail(mailOptions);
         console.log('Confirmation email sent to:', participant.email);
     } catch (error) {
