@@ -20,30 +20,55 @@ function getServiceAccountAuth() {
     });
 }
 
-async function getEventMeetLink(slot) {
+async function addReservationToEvent(slot, participant) {
     try {
         const serviceAccountAuth = getServiceAccountAuth();
         const calendar = google.calendar({ version: 'v3', auth: serviceAccountAuth });
 
         // 既存イベントを取得
-        const response = await calendar.events.get({
+        const getResponse = await calendar.events.get({
             calendarId: process.env.CALENDAR_ID,
             eventId: slot.id
         });
 
-        const meetLink = response.data.conferenceData?.entryPoints?.[0]?.uri ||
-                        response.data.hangoutLink ||
+        const event = getResponse.data;
+        const meetLink = event.conferenceData?.entryPoints?.[0]?.uri ||
+                        event.hangoutLink ||
                         null;
 
         if (!meetLink) {
             throw new Error('Google Meet URLが見つかりません。管理者がイベントにGoogle Meetを追加してください。');
         }
 
+        // 予約者情報を追記
+        const reservationInfo = `
+------------------
+【予約者情報】
+参加者: ${participant.name}
+Google Meet表示名: ${participant.displayName}
+参加経験: ${participant.experience === 'first' ? '初回参加' : '参加経験あり'}
+メッセージ: ${participant.message || 'なし'}
+予約日時: ${new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' })}
+`;
+
+        const currentDescription = event.description || '';
+        const updatedDescription = currentDescription + reservationInfo;
+
+        // イベントを更新
+        await calendar.events.patch({
+            calendarId: process.env.CALENDAR_ID,
+            eventId: slot.id,
+            resource: {
+                description: updatedDescription
+            }
+        });
+
+        console.log('Reservation added to event:', slot.id);
         return meetLink;
 
     } catch (error) {
-        console.error('Error getting Google Meet link:', error);
-        throw new Error('Google Meet URLの取得に失敗しました');
+        console.error('Error adding reservation to event:', error);
+        throw new Error('予約の記録に失敗しました');
     }
 }
 
@@ -72,7 +97,7 @@ module.exports = async function handler(req, res) {
             });
         }
 
-        const meetLink = await getEventMeetLink(slot);
+        const meetLink = await addReservationToEvent(slot, participant);
 
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.status(200).json({
