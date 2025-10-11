@@ -121,7 +121,7 @@ function createSlotElement(event) {
         minute: '2-digit'
     })}`;
 
-    const book = event.extendedProperties?.private?.book || '未定';
+    const book = event.summary || 'イベントタイトルなし';
 
     slotDiv.innerHTML = `
         <div class="slot-date">${dateStr}</div>
@@ -146,7 +146,7 @@ function selectSlot(slotElement, eventData) {
         title: eventData.summary,
         start: eventData.start.dateTime,
         end: eventData.end.dateTime,
-        book: eventData.extendedProperties?.private?.book || '未定'
+        book: eventData.summary || 'イベントタイトルなし'
     });
 
     document.getElementById('reservation-form').style.display = 'block';
