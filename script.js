@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-links a');
     const ctaButton = document.querySelector('.cta-button');
-    const contactForm = document.querySelector('.contact-form');
 
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -24,24 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 reservationSection.scrollIntoView({
                     behavior: 'smooth'
                 });
-            }
-        });
-    }
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            const name = this.querySelector('input[type="text"]').value;
-            const email = this.querySelector('input[type="email"]').value;
-            const message = this.querySelector('textarea').value;
-
-            if (name && email && message) {
-                alert('お問い合わせありがとうございます！後日ご連絡いたします。');
-                this.reset();
-            } else {
-                alert('すべての項目を入力してください。');
             }
         });
     }
