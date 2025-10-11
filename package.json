@@ -14,8 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "googleapis": "^128.0.0",
-    "nodemailer": "^6.9.7"
+    "googleapis": "^128.0.0"
   },
   "devDependencies": {
     "express": "^4.18.2",

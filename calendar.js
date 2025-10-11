@@ -170,8 +170,7 @@ async function submitReservation(formData) {
             slot: selectedSlot,
             participant: {
                 name: formData.get('name'),
-                email: formData.get('email'),
-                phone: formData.get('phone'),
+                birthdate: formData.get('birthdate'),
                 experience: formData.get('experience'),
                 message: formData.get('message')
             },
@@ -205,7 +204,9 @@ async function submitReservation(formData) {
 }
 
 function showSuccessMessage(result) {
-    alert(`予約が完了しました！\n\nGoogle Meet の会議URLを ${result.email} に送信いたします。\n読書会の詳細については、後日メールでご連絡いたします。`);
+    const meetUrl = result.meetLink || 'URLの取得に失敗しました';
+
+    alert(`予約が完了しました！\n\n以下のGoogle Meet URLで当日ご参加ください：\n\n${meetUrl}\n\n※このURLは必ず保存してください。`);
 
     cancelReservation();
 }
