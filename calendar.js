@@ -206,8 +206,114 @@ async function submitReservation(formData) {
 function showSuccessMessage(result) {
     const meetUrl = result.meetLink || 'URLの取得に失敗しました';
 
-    alert(`予約が完了しました！\n\n以下のGoogle Meet URLで当日ご参加ください：\n\n${meetUrl}\n\n※このURLは必ず保存してください。`);
+    // モーダルを作成
+    const modalHTML = `
+        <div class="modal-overlay active" id="success-modal">
+            <div class="modal-content">
+                <h3>🎉 予約が完了しました！</h3>
+                <p>以下のGoogle Meet URLで当日ご参加ください</p>
+                <div class="meet-url-container">
+                    <div class="meet-url" id="meet-url-text">${meetUrl}</div>
+                </div>
+                <p style="font-size: 0.9rem; color: #d9534f;">※このURLは必ず保存してください</p>
+                <div class="modal-buttons">
+                    <button class="copy-button" id="copy-url-btn">URLをコピー</button>
+                    <button class="close-modal-button" id="close-modal-btn">閉じる</button>
+                </div>
+            </div>
+        </div>
+    `;
 
+    // モーダルをbodyに追加
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    // コピーボタンのイベントリスナー
+    document.getElementById('copy-url-btn').addEventListener('click', function() {
+        copyToClipboard(meetUrl, this);
+    });
+
+    // 閉じるボタンのイベントリスナー
+    document.getElementById('close-modal-btn').addEventListener('click', function() {
+        closeModal();
+    });
+
+    // オーバーレイクリックで閉じる
+    document.getElementById('success-modal').addEventListener('click', function(e) {
+        if (e.target.id === 'success-modal') {
+            closeModal();
+        }
+    });
+}
+
+function copyToClipboard(text, button) {
+    // Clipboard API を試す
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                showCopySuccess(button);
+            })
+            .catch(() => {
+                // フォールバック: テキストを選択状態にする
+                fallbackCopyToClipboard(text, button);
+            });
+    } else {
+        // 古いブラウザ用のフォールバック
+        fallbackCopyToClipboard(text, button);
+    }
+}
+
+function fallbackCopyToClipboard(text, button) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-9999px';
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            showCopySuccess(button);
+        } else {
+            // コマンドが失敗した場合、URLテキストを選択状態にする
+            selectUrlText();
+            alert('自動コピーに失敗しました。URLを長押しして手動でコピーしてください。');
+        }
+    } catch (err) {
+        selectUrlText();
+        alert('自動コピーに失敗しました。URLを長押しして手動でコピーしてください。');
+    }
+
+    document.body.removeChild(textArea);
+}
+
+function selectUrlText() {
+    const urlElement = document.getElementById('meet-url-text');
+    if (urlElement) {
+        const range = document.createRange();
+        range.selectNodeContents(urlElement);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+}
+
+function showCopySuccess(button) {
+    const originalText = button.textContent;
+    button.textContent = 'コピーしました！';
+    button.classList.add('copied');
+
+    setTimeout(() => {
+        button.textContent = originalText;
+        button.classList.remove('copied');
+    }, 2000);
+}
+
+function closeModal() {
+    const modal = document.getElementById('success-modal');
+    if (modal) {
+        modal.remove();
+    }
     cancelReservation();
 }
 

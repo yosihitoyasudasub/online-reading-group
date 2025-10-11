@@ -405,3 +405,119 @@ footer {
         flex-direction: column;
     }
 }
+
+/* Modal styles */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.modal-content h3 {
+    color: #8B4513;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.modal-content p {
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+.meet-url-container {
+    background: #FFF8DC;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+    word-break: break-all;
+}
+
+.meet-url {
+    color: #8B4513;
+    font-weight: bold;
+    font-size: 0.95rem;
+    user-select: all;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.copy-button {
+    background: #8B4513;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    min-width: 120px;
+}
+
+.copy-button:hover {
+    background: #654321;
+}
+
+.copy-button:active {
+    transform: scale(0.95);
+}
+
+.copy-button.copied {
+    background: #228B22;
+}
+
+.close-modal-button {
+    background: #ccc;
+    color: #333;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    min-width: 120px;
+}
+
+.close-modal-button:hover {
+    background: #bbb;
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 1.5rem;
+    }
+
+    .modal-buttons {
+        flex-direction: column;
+    }
+
+    .copy-button,
+    .close-modal-button {
+        width: 100%;
+    }
+}
