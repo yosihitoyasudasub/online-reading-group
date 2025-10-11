@@ -39,7 +39,7 @@ module.exports = async function handler(req, res) {
 
         const now = new Date();
         const timeMin = now.toISOString();
-        const timeMax = new Date(now.getTime() + (30 * 24 * 60 * 60 * 1000)).toISOString();
+        const timeMax = new Date(now.getTime() + (90 * 24 * 60 * 60 * 1000)).toISOString();
 
         const response = await calendar.events.list({
             calendarId: process.env.CALENDAR_ID,
