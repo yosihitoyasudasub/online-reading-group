@@ -170,7 +170,7 @@ async function submitReservation(formData) {
             slot: selectedSlot,
             participant: {
                 name: formData.get('name'),
-                birthdate: formData.get('birthdate'),
+                displayName: formData.get('displayName'),
                 experience: formData.get('experience'),
                 message: formData.get('message')
             },
