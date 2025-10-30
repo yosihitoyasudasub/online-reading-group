@@ -28,7 +28,8 @@ async function addReservationToEvent(slot, participant) {
         // 既存イベントを取得
         const getResponse = await calendar.events.get({
             calendarId: process.env.CALENDAR_ID,
-            eventId: slot.id
+            eventId: slot.id,
+            conferenceDataVersion: 1
         });
 
         const event = getResponse.data;
